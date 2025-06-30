@@ -16,10 +16,13 @@ export async function POST(request) {
 
         //calculate amount using items
 
-        const amount = await items.reduce(async (acc, item) => {
-            const product = await Product.findById(item.product)
-            return acc + product.offerPrice * item.quantity
-        }, 0)
+        const productAmounts = await Promise.all(
+            items.map(async (item) => {
+                const product = await Product.findById(item.product);
+                return product.offerPrice * item.quantity;
+            })
+        );
+        const amount = productAmounts.reduce((acc, val) => acc + val, 0);
         await inngest.send({
             name: "order/created",
             data: {
@@ -30,13 +33,13 @@ export async function POST(request) {
                 data: Date.now()
             }
         })
-        const user =await User.findById(userId)
+        const user = await User.findById(userId)
         user.cartItems = {}
         await user.save()
-        return NextResponse.json({ success: true, message: "Order Placed"})
+        return NextResponse.json({ success: true, message: "Order Placed" })
 
     } catch (error) {
-        return NextResponse.json({ success: false, message: error.message})
+        return NextResponse.json({ success: false, message: error.message })
 
     }
 
