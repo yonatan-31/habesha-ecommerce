@@ -21,7 +21,7 @@ export const syncUserCreation = inngest.createFunction(
             name: first_name + ' ' + last_name,
             imageUrl: image_url
         }
-
+console.log("userrr", first_name);
         await connectDB()
         await User.create(userData)
     }
@@ -66,7 +66,7 @@ export const syncUserDeletion = inngest.createFunction(
 
 export const createUserOrder = inngest.createFunction(
     {
-        id: " create-user-order",
+        id: "create-user-order",
         batchEvents: {
             maxSize: 5,
             timeout: "5s"
@@ -77,6 +77,7 @@ export const createUserOrder = inngest.createFunction(
         event: "order/created"
     },
 
+
     async ({ events }) => {
         const orders = events.map((event) => {
             return {
@@ -84,9 +85,11 @@ export const createUserOrder = inngest.createFunction(
                 items: event.data.items,
                 amount: event.data.amount,
                 address: event.data.address,
-                date: event.data.date
+               date: event.data.date ?? new Date()
+
             }
         })
+console.log("order", orders);
 
         await connectDB()
         await Order.insertMany(orders)
