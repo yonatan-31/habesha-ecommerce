@@ -59,8 +59,7 @@ const OrderSummary = () => {
       if (cartItemsArray.length === 0) {
         return toast.error("cart is empty")
       }
-console.log("cartItem&", cartItemsArray, selectedAddress);
-
+      
       const token = await getToken();
 
       const { data } = await axios.post("/api/order/create",

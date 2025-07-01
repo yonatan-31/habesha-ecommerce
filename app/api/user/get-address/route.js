@@ -23,7 +23,7 @@ export async function GET(request) {
             addresses,
         });
 
-    } catch (error) {
+    }catch (error) {
         return NextResponse.json({ success: false, message: error.message });
     }
 }

@@ -7,6 +7,7 @@ export async function GET(request) {
        
         await connectDB();
         const products = await Product.find({}); // fetch all products
+        console.log("terminal pro", products)
         return NextResponse.json({
             success: true,
             products
