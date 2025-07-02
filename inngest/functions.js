@@ -18,7 +18,6 @@ export const syncUserCreation = inngest.createFunction(
             name: first_name + ' ' + last_name,
             imageUrl: image_url
         }
-console.log("userrr", first_name);
         await connectDB()
         await User.create(userData)
     }
