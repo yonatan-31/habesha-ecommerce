@@ -21,7 +21,7 @@ export const syncUserCreation = inngest.createFunction(
             name: first_name + ' ' + last_name,
             imageUrl: image_url
         }
-        console.log("userrr", first_name);
+console.log("userrr", first_name);
         await connectDB()
         await User.create(userData)
     }
@@ -65,41 +65,41 @@ export const syncUserDeletion = inngest.createFunction(
 )
 
 export const createUserOrder = inngest.createFunction(
-    {
-        id: "create-user-order",
-        batchEvents: {
-            maxSize: 5,
-            timeout: "5s"
-        }
-    },
-    {
-        event: "order/created"
-    },
-    async ({ events }) => {
-        console.log("Inngest function triggered", events); // ✅ Properly inside the function
-
-        try {
-            const orders = events.map((event) => ({
-                userId: event.data.userId,
-                items: event.data.items,
-                amount: event.data.amount,
-                address: event.data.address,
-                date: event.data.date ?? new Date()
-            }));
-
-            console.log("Prepared orders:", orders);
-
-            await connectDB();
-            console.log("MongoDB connected");
-
-            await Order.insertMany(orders);
-            console.log("Orders inserted");
-
-            return { success: true, processed: orders.length };
-        } catch (err) {
-            console.error("Error processing orders:", err);
-            return { success: false, error: err.message };
-        }
+  {
+    id: "create-user-order",
+    batchEvents: {
+      maxSize: 5,
+      timeout: "5s"
     }
+  },
+  {
+    event: "order/created"
+  },
+  async ({ events }) => {
+    console.log("Inngest function triggered", events); // ✅ Properly inside the function
+
+    try {
+      const orders = events.map((event) => ({
+        userId: event.data.userId,
+        items: event.data.items,
+        amount: event.data.amount,
+        address: event.data.address,
+        date: event.data.date ?? new Date()
+      }));
+
+      console.log("Prepared orders:", orders);
+
+      await connectDB();
+      console.log("MongoDB connected");
+
+      await Order.insertMany(orders);
+      console.log("Orders inserted");
+
+      return { success: true, processed: orders.length };
+    } catch (err) {
+      console.error("Error processing orders:", err);
+      return { success: false, error: err.message };
+    }
+  }
 );
 
