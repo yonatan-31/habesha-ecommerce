@@ -21,7 +21,7 @@ export const syncUserCreation = inngest.createFunction(
             name: first_name + ' ' + last_name,
             imageUrl: image_url
         }
-console.log("userrr", first_name);
+        console.log("userrr", first_name);
         await connectDB()
         await User.create(userData)
     }
@@ -72,28 +72,34 @@ export const createUserOrder = inngest.createFunction(
             timeout: "5s"
         }
     },
-
     {
         event: "order/created"
     },
-
-
     async ({ events }) => {
-        const orders = events.map((event) => {
-            return {
+        console.log("Inngest function triggered", events); // ✅ Properly inside the function
+
+        try {
+            const orders = events.map((event) => ({
                 userId: event.data.userId,
                 items: event.data.items,
                 amount: event.data.amount,
                 address: event.data.address,
-               date: event.data.date ?? new Date()
+                date: event.data.date ?? new Date()
+            }));
 
-            }
-        })
-console.log("order", orders);
+            console.log("Prepared orders:", orders);
 
-        await connectDB()
-        await Order.insertMany(orders)
+            await connectDB();
+            console.log("MongoDB connected");
 
-        return { success: true, processed: orders.length }
+            await Order.insertMany(orders);
+            console.log("Orders inserted");
+
+            return { success: true, processed: orders.length };
+        } catch (err) {
+            console.error("Error processing orders:", err);
+            return { success: false, error: err.message };
+        }
     }
-)
+);
+
