@@ -66,12 +66,10 @@ export const createUserOrder = inngest.createFunction(
     id: "create-user-order",
     batchEvents: {
       maxSize: 5,
-      timeout: "5s"
-    }
+      timeout: "5s",
+    },
   },
-  {
-    event: "order/created"
-  },
+  { event: "order/created" },
   async ({ events }) => {
     console.log("Inngest function triggered", events); // ✅ Properly inside the function
 
