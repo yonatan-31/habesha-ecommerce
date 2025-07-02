@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",               // ✅ Required for path aliases
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"]              // ✅ Alias @/ maps to root
     }
   }
 }
