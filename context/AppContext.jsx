@@ -59,7 +59,7 @@ export const AppContextProvider = (props) => {
             toast.error(error.message)
         }
 
-    }
+    } 
 
     const addToCart = async (itemId) => {
 
@@ -84,6 +84,8 @@ export const AppContextProvider = (props) => {
                 toast.error(error.message)
 
             }
+        }else{
+            toast.error("Please log in first")
         }
     }
 
@@ -105,7 +107,6 @@ export const AppContextProvider = (props) => {
 
             } catch (error) {
                 toast.error(error.message)
-
             }
         }
     }

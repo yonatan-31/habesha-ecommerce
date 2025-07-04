@@ -1,6 +1,6 @@
 import { addressDummyData } from "@/assets/assets";
 import { useAppContext } from "@/context/AppContext";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
 
@@ -11,27 +11,29 @@ const OrderSummary = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const [userAddresses, setUserAddresses] = useState([]);
+  const dropdownRef = useRef(null);
+
 
   const fetchUserAddresses = async () => {
 
     try {
       const token = await getToken();
 
-
       const { data } = await axios.get("/api/user/get-address", {
         headers: { Authorization: `Bearer ${token}` },
       });
 
       if (data.success) {
-        toast.success(data.message);
-        setUserAddresses(data.addresses);
         if (data.addresses.length > 0) {
-          setSelectedAddress(data.addresses[0])
+          toast.success("address fetched successfully");
+          setUserAddresses(data.addresses);
+          setSelectedAddress(data.addresses[0]);
         } else {
-          toast.error(data.message)
+          toast.error("No saved addresses found");
         }
-
       }
+
+
     } catch (error) {
       toast.error(error.message);
 
@@ -59,7 +61,7 @@ const OrderSummary = () => {
       if (cartItemsArray.length === 0) {
         return toast.error("cart is empty")
       }
-      
+
       const token = await getToken();
 
       const { data } = await axios.post("/api/order/create",
@@ -91,6 +93,19 @@ const OrderSummary = () => {
     }
   }, [user])
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+
   return (
     <div className="w-full md:w-96 bg-gray-500/5 p-5">
       <h2 className="text-xl md:text-2xl font-medium text-gray-700">
@@ -102,7 +117,7 @@ const OrderSummary = () => {
           <label className="text-base font-medium uppercase text-gray-600 block mb-2">
             Select Address
           </label>
-          <div className="relative inline-block w-full text-sm border">
+          <div ref={dropdownRef} className="relative inline-block w-full text-sm border">
             <button
               className="peer w-full text-left px-4 pr-2 py-2 bg-white text-gray-700 focus:outline-none"
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}

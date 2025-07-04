@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { assets, productsDummyData } from "@/assets/assets";
 import Image from "next/image";
 import { useAppContext } from "@/context/AppContext";
@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 
 
 const ProductList = () => {
-
+  const hasFetched = useRef(false);
   const { router, getToken, user } = useAppContext()
 
   const [products, setProducts] = useState([])
@@ -19,7 +19,6 @@ const ProductList = () => {
   const fetchSellerProduct = async () => {
     try {
       const token = await getToken();
-      console.log("token", token);
 
       const { data } = await axios.get("/api/product/seller-list", {
         headers: { Authorization: `Bearer ${token}` },
@@ -28,9 +27,9 @@ const ProductList = () => {
       console.log("data", data.products);
 
       if (data) {
-        toast.success(data.message || "success");
+        toast.success(data.message || "succeess");
         setProducts(data.products);
-        setLoading(false); // always stop loading
+        setLoading(false);
 
       } else {
         toast.error(data.message || "Failed to load productss");
@@ -44,12 +43,13 @@ const ProductList = () => {
   };
 
 
-  useEffect(() => {
-    if (user) {
-      fetchSellerProduct();
 
+  useEffect(() => {
+    if (user && !hasFetched.current) {
+      hasFetched.current = true; // prevent duplicate calls
+      fetchSellerProduct();
     }
-  }, [user])
+  }, [user]);
 
   return (
     <div className="flex-1 min-h-screen flex flex-col justify-between">

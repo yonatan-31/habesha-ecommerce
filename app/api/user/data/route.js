@@ -9,6 +9,8 @@ export async function GET(request) {
 
     try {
         const { userId } = getAuth(request);
+        console.log("ona", userId);
+        
 
         await connectDB();
 
