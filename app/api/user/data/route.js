@@ -5,13 +5,8 @@ import { NextResponse } from "next/server";
 
 
 export async function GET(request) {
-
-
     try {
         const { userId } = getAuth(request);
-        console.log("ona", userId);
-        
-
         await connectDB();
 
         const user = await User.findById(userId);

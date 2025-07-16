@@ -49,11 +49,11 @@ const Cart = () => {
                     <tr key={itemId}>
                       <td className="flex items-center gap-4 py-4 md:px-4 px-1">
                         <div>
-                          <div className="rounded-lg overflow-hidden bg-gray-500/10 p-2">
+                          <div className="rounded-lg overflow-hidden bg-gray-500/10">
                             <Image
                               src={product.image[0]}
                               alt={product.name}
-                              className="w-16 h-auto object-cover mix-blend-multiply"
+                              className="w-20 h-auto object-cover mix-blend-multiply"
                               width={1280}
                               height={720}
                             />
@@ -102,7 +102,7 @@ const Cart = () => {
               </tbody>
             </table>
           </div>
-          <button onClick={()=> router.push('/all-products')} className="group flex items-center mt-6 gap-2 text-orange-600">
+          <button onClick={() => router.push('/all-products')} className="group flex items-center mt-6 gap-2 text-orange-600">
             <Image
               className="group-hover:-translate-x-1 transition"
               src={assets.arrow_right_icon_colored}

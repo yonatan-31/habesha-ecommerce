@@ -15,7 +15,7 @@ import {
 const outfit = Outfit({ subsets: ['latin'], weight: ["300", "400", "500"] })
 
 export const metadata = {
-  title: "QuickCart - GreatStack",
+  title: "Habsha store",
   description: "E-Commerce with Next.js ",
 };
 

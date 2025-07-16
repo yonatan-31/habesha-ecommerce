@@ -46,8 +46,21 @@ import product_details_page_apple_earphone_image2 from "./product_details_page_a
 import product_details_page_apple_earphone_image3 from "./product_details_page_apple_earphone_image3.png";
 import product_details_page_apple_earphone_image4 from "./product_details_page_apple_earphone_image4.png";
 import product_details_page_apple_earphone_image5 from "./product_details_page_apple_earphone_image5.png";
-
+import page1 from "./page-1.png"
+import page2 from "./page-2.png"
+import page3 from "./page-3.png"
+import habshaLogo from "./habesha-logo.png"
+import page4 from "./page-4.png"
+import page5 from "./page-5.png"
+import page6 from "./page-6.png"
 export const assets = {
+  page1,
+  page2,
+  page3,
+  page4,
+  page5,
+  page6,
+  habshaLogo,
   logo,
   search_icon,
   user_icon,

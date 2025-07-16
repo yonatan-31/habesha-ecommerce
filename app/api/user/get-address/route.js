@@ -6,8 +6,7 @@ import { NextResponse } from "next/server";
 export async function GET(request) {
     try {
         const { userId } = getAuth(request);
-        console.log("userId 2", userId);
-
+        
         await connectDB();
         const addresses = await Address.find({ userId });
 
@@ -16,7 +15,6 @@ export async function GET(request) {
         }
 
 
-        console.log("addre 2", addresses);
         return NextResponse.json({
             success: true,
             message: "User addresses fetched successfully",
