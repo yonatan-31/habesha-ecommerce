@@ -30,7 +30,7 @@ const FeaturedProduct = () => {
             </div>
 
             <div className="group-hover:-translate-y-4 transition duration-300 absolute bottom-8 left-8 text-white space-y-2">
-              <p className="font-medium text-base md:text-xl lg:text-xl">{product.name}</p>
+              <p className="  xl:block lg:hidden  font-medium text-base md:text-xl lg:text-xl">{product.name}</p>
 
               <button onClick={() => { router.push('/product/' + product._id) }} className="flex items-center gap-1.5 bg-orange-600 px-4 py-2 rounded">
                 Buy now <Image className="h-3 w-3" src={assets.redirect_icon} alt="Redirect Icon" />
